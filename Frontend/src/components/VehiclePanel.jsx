@@ -1,6 +1,12 @@
 import React from "react";
 
 const VehiclePanel = (props) => {
+  // console.log("Received fare prop:", props.fare);
+
+  if (!props.fare) {
+    return <div>Loading fare details...</div>;
+  }
+
   return (
     <div>
       <h5
@@ -16,6 +22,7 @@ const VehiclePanel = (props) => {
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("car");
         }}
         className="flex mb-2 border-2 active:border-black  rounded-xl w-full items-center justify-between p-3"
       >
@@ -37,12 +44,13 @@ const VehiclePanel = (props) => {
             Affordable,compact rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">Rs193.20</h2>
+        <h2 className="text-lg font-semibold">&#8377; {props.fare.car}</h2>
       </div>
 
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("moto");
         }}
         className="flex mb-2 border-2 active:border-black  rounded-xl w-full items-center justify-between p-3"
       >
@@ -64,14 +72,15 @@ const VehiclePanel = (props) => {
             Affordable motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">Rs65.20</h2>
+        <h2 className="text-lg font-semibold">&#8377; {props.fare.moto}</h2>
       </div>
 
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("auto");
         }}
-        className="flex mb-2 border-2 active:border-black   rounded-xl w-full items-center justify-between p-3"
+        className="flex mb-2 border-2 active:border-black rounded-xl w-full items-center justify-between p-3"
       >
         <img
           className="h-10"
@@ -88,7 +97,7 @@ const VehiclePanel = (props) => {
           </h4>
           <h5 className="font-medium text-sm">2 mins away</h5>
         </div>
-        <h2 className="text-lg font-semibold">Rs103.90</h2>
+        <h2 className="text-lg font-semibold">&#8377; {props.fare.auto}</h2>
       </div>
     </div>
   );
