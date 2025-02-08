@@ -25,7 +25,7 @@ The request body should be in JSON format and include the following fields:
 - `user` (object):
   - `fullname` (object).
     - `firstname` (string): User's first name (minimum 3 characters).
-    - `lastname` (string): User's last name (minimum 3 characters).   
+    - `lastname` (string): User's last name (minimum 3 characters).
   - `email` (string): User's email address (must be a valid email).
   - `password` (string): User's password (minimum 6 characters).
 - `token` (String): JWT Token
@@ -56,7 +56,7 @@ The request body should be in JSON format and include the following fields:
 - `user` (object):
   - `fullname` (object).
     - `firstname` (string): User's first name (minimum 3 characters).
-    - `lastname` (string): User's last name (minimum 3 characters).   
+    - `lastname` (string): User's last name (minimum 3 characters).
   - `email` (string): User's email address (must be a valid email).
   - `password` (string): User's password (minimum 6 characters).
 - `token` (String): JWT Token
@@ -81,10 +81,8 @@ Requires a valid JWT token in the Authorization header:
 - `user` (object):
   - `fullname` (object).
     - `firstname` (string): User's first name (minimum 3 characters).
-    - `lastname` (string): User's last name (minimum 3 characters).   
+    - `lastname` (string): User's last name (minimum 3 characters).
   - `email` (string): User's email address (must be a valid email).
-
-
 
 ## `/users/logout` Endpoint
 
@@ -103,7 +101,7 @@ Requires a valid JWT token in the Authorization header or cookie:
 - `user` (object):
   - `fullname` (object).
     - `firstname` (string): User's first name (minimum 3 characters).
-    - `lastname` (string): User's last name (minimum 3 characters).   
+    - `lastname` (string): User's last name (minimum 3 characters).
   - `email` (string): User's email address (must be a valid email).
   - `password` (string): User's password (minimum 6 characters).
 - `token` (String): JWT Token## `/captains/register` Endpoint
@@ -132,7 +130,6 @@ The request body should be in JSON format and include the following fields:
   - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto')
 
 ### Example Response
-
 
 ## `/captains/register` Endpoint
 
@@ -164,7 +161,7 @@ The request body should be in JSON format and include the following fields:
 - `captain` (object):
   - `fullname` (object).
     - `firstname` (string): Captain's first name (minimum 3 characters).
-    - `lastname` (string): Captain's last name (minimum 3 characters).   
+    - `lastname` (string): Captain's last name (minimum 3 characters).
   - `email` (string): Captain's email address (must be a valid email).
   - `password` (string): Captain's password (minimum 6 characters).
   - `vehicle` (object):
@@ -200,7 +197,7 @@ The request body should be in JSON format and include the following fields:
 - `captain` (object):
   - `fullname` (object).
     - `firstname` (string): Captain's first name (minimum 3 characters).
-    - `lastname` (string): Captain's last name (minimum 3 characters).   
+    - `lastname` (string): Captain's last name (minimum 3 characters).
   - `email` (string): Captain's email address (must be a valid email).
   - `password` (string): Captain's password (minimum 6 characters).
   - `vehicle` (object):
@@ -230,7 +227,7 @@ Requires a valid JWT token in the Authorization header:
 - `captain` (object):
   - `fullname` (object).
     - `firstname` (string): Captain's first name (minimum 3 characters).
-    - `lastname` (string): Captain's last name (minimum 3 characters).   
+    - `lastname` (string): Captain's last name (minimum 3 characters).
   - `email` (string): Captain's email address (must be a valid email).
   - `vehicle` (object):
     - `color` (string): Vehicle color.
@@ -255,7 +252,6 @@ Requires a valid JWT token in the Authorization header or cookie.
 ### Example Response
 
 - `message` (string): Logout successfully.
-
 
 ## `/maps/get-coordinates` Endpoint
 
@@ -320,14 +316,8 @@ GET /maps/get-distance-time?origin=New+York,NY&destination=Los+Angeles,CA
 
 ```json
 {
-  "distance": {
-    "text": "2,789 miles",
-    "value": 4486540
-  },
-  "duration": {
-    "text": "1 day 18 hours",
-    "value": 154800
-  }
+  "distance": 4486540,
+  "duration": 154800
 }
 ```
 
@@ -428,7 +418,6 @@ The request body should be in JSON format and include the following fields:
 }
 ```
 
-
 ## `/rides/get-fare` Endpoint
 
 ### Description
@@ -444,7 +433,7 @@ Retrieves the fare estimate for a ride between the provided pickup and destinati
 Requires a valid JWT token in the Authorization header:
 `Authorization:
 
- Bear
+Bear
 
 er <token>`
 
