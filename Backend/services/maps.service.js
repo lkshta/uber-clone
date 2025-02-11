@@ -1,4 +1,5 @@
 const axios = require("axios");
+const captainModel = require("../models/captain.model");
 
 module.exports.getAddressCoordinate = async (address) => {
   try {
@@ -15,8 +16,8 @@ module.exports.getAddressCoordinate = async (address) => {
     if (response.data && response.data.length > 0) {
       const { lat, lon } = response.data[0];
       return {
-        lat: parseFloat(lat),
-        lon: parseFloat(lon),
+        ltd: parseFloat(lat),
+        lng: parseFloat(lon),
       };
     } else {
       throw new Error("No coordinates found for the given address");
@@ -36,7 +37,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
     const destinationCoords = await this.getAddressCoordinate(destination);
 
     const response = await axios.get(
-      `http://router.project-osrm.org/route/v1/driving/${originCoords.lon},${originCoords.lat};${destinationCoords.lon},${destinationCoords.lat}`,
+      `http://router.project-osrm.org/route/v1/driving/${originCoords.lng},${originCoords.ltd};${destinationCoords.lng},${destinationCoords.ltd}`,
       {
         params: {
           overview: "false",
@@ -113,4 +114,18 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     console.error("Error fetching suggestions:", error);
     throw error;
   }
+};
+
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+  // radius in km
+
+  const captains = await captainModel.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: [[ltd, lng], radius / 6378.1],
+      },
+    },
+  });
+  return captains;
 };

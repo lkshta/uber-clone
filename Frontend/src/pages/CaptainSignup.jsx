@@ -17,7 +17,6 @@ const CaptainSignup = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
-  // const [captainData, setCaptainData] = useState({});
   const { captain, setCaptain } = React.useContext(CaptainDataContext);
 
   const submitHandler = async (e) => {

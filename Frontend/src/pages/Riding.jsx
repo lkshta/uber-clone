@@ -1,8 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Home from "./Home";
+import { useLocation } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { SocketContext } from "../context/SocketContext";
+import { useNavigate } from "react-router-dom";
 
 const Riding = () => {
+  const location = useLocation();
+  const { ride } = location.state || {}; //retrieve ride data
+
+  const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  socket.on("ride-ended", () => {
+    navigate("/home");
+  });
+
   return (
     <div className="h-screen">
       <Link
@@ -27,8 +40,14 @@ const Riding = () => {
             alt=""
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium ">Jay Prakash</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">RJ14 LS 5672</h4>
+            <h2 className="text-lg font-medium capitalize">
+              {ride?.captain.fullname.firstname +
+                " " +
+                ride?.captain.fullname.lastname}
+            </h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">
+              {ride?.captain.vehicle.plate}
+            </h4>
             <p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
           </div>
         </div>
@@ -40,7 +59,7 @@ const Riding = () => {
               <div>
                 <h3 className="text-lg fnt-medium">562/11-A</h3>
                 <p className="text-sm -mt-1 text-gray-600">
-                  Iffco Chowk, Gurgaon
+                  {ride?.destination}
                 </p>
               </div>
             </div>
@@ -48,7 +67,9 @@ const Riding = () => {
             <div className="flex gap-5 p-3 items-center ">
               <i className="text-lg ri-currency-line"></i>
               <div>
-                <h3 className="text-lg font-medium">Rs. 193.20</h3>
+                <h3 className="text-lg font-medium">
+                  &#8377; {ride?.fare[ride?.captain.vehicle.vehicleType]}{" "}
+                </h3>
                 <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
               </div>
             </div>

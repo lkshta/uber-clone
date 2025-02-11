@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import axios from "axios";
@@ -8,6 +8,11 @@ import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
+import { SocketContext } from "../context/SocketContext";
+import { useContext } from "react";
+import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -31,7 +36,30 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
-  // const [ ride, setRide ] = useState(null)
+  const [ride, setRide] = useState(null);
+  // const [showLiveTracking,setShowLiveTracking] = useState(true);
+
+  const navigate = useNavigate();
+
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext);
+
+  useEffect(() => {
+    socket.emit("join", { userType: "user", userId: user._id });
+  }, [user]);
+
+  socket.on("ride-confirmed", (ride) => {
+    console.log("ride-confirmed", ride);
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+    setRide(ride);
+  });
+
+  socket.on("ride-started", (ride) => {
+    console.log("ride-started", ride);
+    setWaitingForDriver(false);
+    navigate("/riding", { state: { ride } });
+  });
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -220,13 +248,16 @@ const Home = () => {
         alt="uber logo"
       />
 
-      <div className="h-screen w-screen ">
+      <div className="h-screen w-screen overflow-hidden ">
         {/* image for temporary */}
         <img
           className="h-full w-full object-cover"
           src="https://t3.ftcdn.net/jpg/07/28/30/26/360_F_728302620_Xddnf5Cl0K1ACZurd6yByUzHiHMMIoe6.jpg"
           alt=""
         />
+        {/* <div className="h-3/5 z-0">
+        {showLiveTracking && <LiveTracking />}
+        </div> */}
       </div>
 
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full">
@@ -235,6 +266,7 @@ const Home = () => {
             ref={panelCloseRef}
             onClick={() => {
               setPanelOpen(false);
+              // setShowLiveTracking(false);
             }}
             className="absolute opacity-0 right-6 top-6 text-2xl"
           >
@@ -280,7 +312,7 @@ const Home = () => {
           </button>
         </div>
 
-        <div ref={panelRef} className="h-[70%]  bg-white  ">
+        <div ref={panelRef} className="h-0  bg-white  ">
           <LocationSearchPanel
             suggestions={
               activeField === "pickup"
@@ -298,7 +330,7 @@ const Home = () => {
 
       <div
         ref={vehiclePanelRef}
-        className="fixed w-full z-10 bg-white bottom-0 translate-y-full  px-3 py-10 pt-12"
+        className="fixed w-full z-10 bg-white bottom-0 translate-y-full  px-3 py-6 pt-12"
       >
         <VehiclePanel
           selectVehicle={setVehicleType}
@@ -342,6 +374,7 @@ const Home = () => {
         className="fixed w-full z-10 bg-white bottom-0  px-3 py-6 pt-12"
       >
         <WaitingForDriver
+          ride={ride}
           setVehicleFound={setVehicleFound}
           setWaitingForDriver={setWaitingForDriver}
           waitingForDriver={waitingForDriver}

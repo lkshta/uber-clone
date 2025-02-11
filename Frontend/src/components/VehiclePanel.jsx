@@ -1,8 +1,6 @@
 import React from "react";
 
 const VehiclePanel = (props) => {
-  // console.log("Received fare prop:", props.fare);
-
   if (!props.fare) {
     return <div>Loading fare details...</div>;
   }

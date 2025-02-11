@@ -1,8 +1,6 @@
 import React from "react";
 
 const ConfirmRide = (props) => {
-  // console.log("fare",props.fare);
-  // console.log("vehicleType",props.vehicleType);
   return (
     <div>
       <h5
