@@ -2,27 +2,33 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import FinishRide from "../components/FinishRide";
 import L from "leaflet";
 
-
 const CaptainRiding = () => {
+  const location = useLocation();
+  const rideData = location.state?.ride;
+
   const [finishRidePanel, setFinishRidePanel] = useState(false);
   const finishRidePanelRef = useRef(null);
 
-   const mapRef = useRef();
-  
-    useEffect(() => {
-      if (mapRef.current != undefined) { mapRef.current.remove(); }
-      mapRef.current = L.map("map").setView([28.613,77.208], 16);
-  
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(mapRef.current);
-    }, []);
+  console.log(rideData);
 
+  const mapRef = useRef();
+
+  useEffect(() => {
+    if (mapRef.current != undefined) {
+      mapRef.current.remove();
+    }
+    mapRef.current = L.map("map").setView([28.613, 77.208], 16);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(mapRef.current);
+  }, []);
 
   useGSAP(
     function () {
@@ -61,9 +67,7 @@ const CaptainRiding = () => {
           alt=""
         /> */}
 
-<div id="map" className="w-full h-full object-cover z-0"></div>
-
-
+        <div id="map" className="w-full h-full object-cover z-0"></div>
       </div>
 
       <div
@@ -86,7 +90,10 @@ const CaptainRiding = () => {
         ref={finishRidePanelRef}
         className="fixed w-full z-10 bg-white bottom-0 px-3 py-6 pt-12 translate-y-full"
       >
-        <FinishRide setFinishRidePanel={setFinishRidePanel} />
+        <FinishRide ride={rideData} 
+        setFinishRidePanel={setFinishRidePanel}
+        
+         />
       </div>
     </div>
   );

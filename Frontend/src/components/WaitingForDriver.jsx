@@ -6,7 +6,7 @@ const WaitingForDriver = (props) => {
       <h5
         className="p-1 text-center absolute top-0 w-[93%]"
         onClick={() => {
-          props.waitingForDriver(false);
+          props.setWaitingForDriver(false);
         }}
       >
         <i className="ri-arrow-down-wide-line text-3xl text-gray-300 "></i>
@@ -18,9 +18,16 @@ const WaitingForDriver = (props) => {
           alt=""
         />
         <div className="text-right">
-          <h2 className="text-lg font-medium ">Jay Prakash</h2>
-          <h4 className="text-xl font-semibold -mt-1 -mb-1">RJ14 LS 5672</h4>
+          <h2 className="text-lg font-medium capitalize ">
+            {props.ride?.captain.fullname.firstname +
+              " " +
+              props.ride?.captain.fullname.lastname}
+          </h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">
+            {props.ride?.captain.vehicle.plate}
+          </h4>
           <p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
+          <h1 className="text-lg font-semibold">{props.ride?.otp}</h1>
         </div>
       </div>
 
@@ -31,7 +38,7 @@ const WaitingForDriver = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Iffco Chowk, Gurgaon
+                {props.ride?.pickup}
               </p>
             </div>
           </div>
@@ -41,7 +48,7 @@ const WaitingForDriver = (props) => {
             <div>
               <h3 className="text-lg fnt-medium">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Iffco Chowk, Gurgaon
+                {props.ride?.destination}
               </p>
             </div>
           </div>
@@ -49,7 +56,10 @@ const WaitingForDriver = (props) => {
           <div className="flex gap-5 p-3 items-center ">
             <i className="text-lg ri-currency-line"></i>
             <div>
-              <h3 className="text-lg font-medium">Rs. 193.20</h3>
+              <h3 className="text-lg font-medium">
+                &#8377;{" "}
+                {props.ride?.fare[props.ride?.captain.vehicle.vehicleType]}
+              </h3>
               <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
